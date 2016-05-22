@@ -24,7 +24,7 @@ INSERT INTO sp16_newsFeed VALUES (NULL,2,'Maui');
 INSERT INTO sp16_newsFeed VALUES (NULL,2,'2020+Summer+Olympics'); 
 INSERT INTO sp16_newsFeed VALUES (NULL,3,'Boston+Red+Sox'); 
 INSERT INTO sp16_newsFeed VALUES (NULL,3,'French+Open'); 
-INSERT INTO sp16_newsFeed VALUES (NULL,3,'Cleveland+Cavaliers', ''); 
+INSERT INTO sp16_newsFeed VALUES (NULL,3,'Cleveland+Cavaliers'); 
 
 
 #--URL's to make dynamic--#
