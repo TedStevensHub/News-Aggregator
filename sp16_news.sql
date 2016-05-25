@@ -6,6 +6,7 @@ SET foreign_key_checks = 0; #turn off constraints temporarily
 
 #since constraints cause problems, drop tables first, working backward
 DROP TABLE IF EXISTS sp16_newsFeed;
+DROP TABLE IF EXISTS sp16_newsCategory;
   
 #all tables must be of type InnoDB to do transactions, foreign key constraints
 CREATE TABLE sp16_newsFeed(
