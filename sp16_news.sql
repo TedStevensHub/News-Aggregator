@@ -38,7 +38,7 @@ CREATE TABLE sp16_newsCategory(
 CategoryID INT UNSIGNED NOT NULL AUTO_INCREMENT,
 Category VARCHAR(100) DEFAULT '',
 CategorySymbol VARCHAR(20) DEFAULT '',
-PRIMARY KEY (CategoryID),    
+PRIMARY KEY (CategoryID)    
 )ENGINE=INNODB;
 
 INSERT INTO sp16_newsCategory VALUES (NULL,'World','w');
