@@ -30,9 +30,8 @@ INSERT INTO sp16_newsFeed VALUES (NULL,'Cleveland Cavaliers',3,'Cleveland+Cavali
 
 
 #--URL's to make dynamic--#
-#https://news.google.com/news/section?cf=all&hl=en&pz=1&ned=us&q=EgyptAir&topicsid=en_us:w&ict=tnv0
-#https://news.google.com/news/section?cf=all&hl=en&pz=1&ned=us&q=Maui&topicsid=en_us:snc&ict=tnv3
-#https://news.google.com/news/section?cf=all&hl=en&pz=1&ned=us&q=French+Open&topicsid=en_us:s&ict=tnv3
+#https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=Olympic+Games&output=rss
+
 
 CREATE TABLE sp16_newsCategory(
 CategoryID INT UNSIGNED NOT NULL AUTO_INCREMENT,
