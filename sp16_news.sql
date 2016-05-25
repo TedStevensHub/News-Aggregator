@@ -37,12 +37,11 @@ INSERT INTO sp16_newsFeed VALUES (NULL,'Cleveland Cavaliers',3,'Cleveland+Cavali
 CREATE TABLE sp16_newsCategory(
 CategoryID INT UNSIGNED NOT NULL AUTO_INCREMENT,
 Category VARCHAR(100) DEFAULT '',
-CategorySymbol VARCHAR(20) DEFAULT '',
 PRIMARY KEY (CategoryID)    
 )ENGINE=INNODB;
 
-INSERT INTO sp16_newsCategory VALUES (NULL,'World','w');
-INSERT INTO sp16_newsCategory VALUES (NULL,'Science','snc');
-INSERT INTO sp16_newsCategory VALUES (NULL,'Sports','s');
+INSERT INTO sp16_newsCategory VALUES (NULL,'World');
+INSERT INTO sp16_newsCategory VALUES (NULL,'Science');
+INSERT INTO sp16_newsCategory VALUES (NULL,'Sports');
 
 SET foreign_key_checks = 1; #turn foreign key check back on
