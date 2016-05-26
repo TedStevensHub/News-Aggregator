@@ -1,7 +1,6 @@
 <?php
 //index2.php
 
-include 'common_inc.php';
 include 'credentials.php';
 
 
@@ -24,7 +23,7 @@ while ($row = mysqli_fetch_assoc($result)) {
     $category = $row['Category'];
     echo "<br/><b>$category</b><br/>";
     $sql2 = "SELECT FeedName, Feed FROM sp16_newsFeed nf INNER JOIN sp16_newsCategory nc ON nf.CategoryID = nc.CategoryID WHERE Category = '$category'";
-    $result2 = mysqli_query(IDB::conn(),$sql2) or die(trigger_error(mysqli_error(IDB::conn()), E_USER_ERROR));    
+    $result2 = mysqli_query($connect,$sql2) or die(trigger_error(mysqli_error($connect), E_USER_ERROR));    
     while ($row2 = mysqli_fetch_assoc($result2)) {
         $feedlink = new Feed($row2['FeedName'], $row2['Feed']);
         $feedlink->FeedLinks();      
