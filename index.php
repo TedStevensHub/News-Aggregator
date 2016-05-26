@@ -10,9 +10,9 @@ include 'credentials.php';
 $sql = "SELECT Category FROM sp16_newsCategory";
 
 
-
-//database connection
-$result = mysqli_query(IDB::conn(),$sql) or die(trigger_error(mysqli_error(IDB::conn()), E_USER_ERROR));
+$connect = @mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
+//database connection   IDB::conn()
+$result = mysqli_query($connect,$sql) or die(trigger_error(mysqli_error($connect), E_USER_ERROR));
 
 
 
@@ -27,10 +27,11 @@ while ($row = mysqli_fetch_assoc($result)) {
     $result2 = mysqli_query(IDB::conn(),$sql2) or die(trigger_error(mysqli_error(IDB::conn()), E_USER_ERROR));    
     while ($row2 = mysqli_fetch_assoc($result2)) {
         $feedlink = new Feed($row2['FeedName'], $row2['Feed']);
-        $feedlink->FeedLinks();
-    }
-    
+        $feedlink->FeedLinks();      
+    }   
 }
+@mysqli_free_result($result);
+@mysqli_close($connect);
 
 //https://news.google.com/news/section?cf=all&hl=en&pz=1&ned=us&q='.$Feed.'&topicsid=en_us:'.$CategorySymbol.'&ict=tnv3
 
