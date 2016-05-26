@@ -2,7 +2,6 @@
 //feedview.php
 
 $Feed = $_GET['feed'];
-$FeedName = $_GET['feedname'];
 
 
   $request = "https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=".$Feed."&output=rss";

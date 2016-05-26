@@ -22,7 +22,7 @@ echo '<h3 align="center">News Aggregator</h3>';
 
 while ($row = mysqli_fetch_assoc($result)) {
     $category = $row['Category'];
-    echo "<br/>$category<br/>";
+    echo "<br/><b>$category</b><br/>";
     $sql2 = "SELECT FeedName, Feed FROM sp16_newsFeed nf INNER JOIN sp16_newsCategory nc ON nf.CategoryID = nc.CategoryID WHERE Category = '$category'";
     $result2 = mysqli_query(IDB::conn(),$sql2) or die(trigger_error(mysqli_error(IDB::conn()), E_USER_ERROR));    
     while ($row2 = mysqli_fetch_assoc($result2)) {
@@ -46,7 +46,7 @@ class Feed {
     }//end constructor
     
     public function FeedLinks() {
-    echo '<a href="feedview.php?feedname='.$this->FeedName.'&feed='.$this->Feed.'">'.$this->FeedName.'</a><br/>';
+    echo '<a href="feedview.php?feed='.urlencode($this->Feed).'">'.$this->FeedName.'</a><br/>';
     }
     
 }//end class
