@@ -3,7 +3,8 @@
 
 include 'credentials.php';
 
-
+//Begin session
+session_start();
 
 //SQL statement
 $sql = "SELECT Category FROM sp16_newsCategory";
