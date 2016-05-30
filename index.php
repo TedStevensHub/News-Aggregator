@@ -1,72 +1,53 @@
 <?php
-class RSS{
+//index2.php
 
-    public function RSS(){
-        require_once('pathto...../mysql_connect.php');
-
-    }//end of rss function
-
-    public function GetFeed(){
-        return $this->getDetails() . $this->getItems();
+include 'credentials.php';
 
 
-    }//end of getfeed function
+//SQL statement selects Cateogries that exist in both tables
+$sql = "SELECT Category FROM sp16_newsCategory";
 
 
-    private function dbConnect(){
+$connect = @mysqli_connect(DB_HOST,DB_USER,DB_PASSWORD,DB_NAME);
 
-        DEFINE('LINK', mysql_connect (DB_HOST, DB_USER, DB_PASSWORD));
-
-    }//end of dbconnect function
-
-    private function getDetails(){
-
-        $detailsTable = "name of the view table used";// provide actual table
-        $this->dbConnect($detailsTable);
-        $query = "SELECT * FROM ". $detailsTable;
-        $result = mysql_db_query (DB_NAME, $query, LINK);
-        while($row = mysql_fetch_array($result))
-        {
-           
-          $details = <?xml version="1.0" encoding="utf-8"?>
-            <rss version="2.0">
-
-                <channel>
-                    <title>'. $row['title'] .'</title>
-                    <link>'. $row['link'] .'</link>
-                    <description>'. $row['description'] .'</description>
-                </channel>
-            </rss>
-            
-        }//end of while statement
-        return $details;
-    }//end of getDetails function
-
-    private function getItems(){
-
-        $itemsTable = "name of the list view table";
-        $this->dbConnect($itemsTable);
-        $query = "SELECT * FROM ". $itemsTable;
-        $result = mysql_db_query(DB_NAME, $query, LINK);
-        $items = '';
-        while($row = mysql_fetch_array($result)){
-            $items .= '<item>
-                <title>'. $row["title"] .'</title>
-                <link>'. $row["link"] .'</link>
-                <description>'. $row["description"] .'</description>
-                
-        </item>';
-
-        }//end of while statement
-
-        $items .= '</channel>
-        </rss>';
-        return $items;
-    }//end of getitems function    
-
-}//end of rss class
+$result = mysqli_query($connect,$sql) or die(trigger_error(mysqli_error($connect), E_USER_ERROR));
 
 
+//an array of objects, an object is 1 of 9 of the feeds, each object has all the information from the database portaining to it. They are added to 1 of 3 arrays for each cateogry
 
+echo '<h3 align="center">News Aggregator</h3>';
+
+while ($row = mysqli_fetch_assoc($result)) {
+    $category = $row['Category'];
+    echo "<br/><b>$category</b><br/>";
+    $sql2 = "SELECT FeedName, Feed, FeedID FROM sp16_newsFeed nf INNER JOIN sp16_newsCategory nc ON nf.CategoryID = nc.CategoryID WHERE Category = '$category'";
+    $result2 = mysqli_query($connect,$sql2) or die(trigger_error(mysqli_error($connect), E_USER_ERROR));    
+    while ($row2 = mysqli_fetch_assoc($result2)) {
+        $feedlink = new Feed($row2['FeedName'], $row2['Feed'], $row2['FeedID']);
+        $feedlink->FeedLinks();      
+    }   
+}
+@mysqli_free_result($result);
+@mysqli_close($connect);
+
+
+class Feed {
+    public $FeedName = '';
+    public $Feed = '';
+    public $FeedID = 0;
+    
+    function __construct($FeedName, $Feed, $FeedID) {
+        
+        $this->FeedName = $FeedName;
+        $this->Feed = $Feed;
+        $this->FeedID = $FeedID;
+
+    }//end constructor
+    
+    public function FeedLinks() {
+    echo '<a href="feedview.php?feed='.urlencode($this->Feed).'&feedid='.$this->FeedID.'">'.$this->FeedName.'</a><br/>';
+    }
+    
+}//end class
 
 ?>
