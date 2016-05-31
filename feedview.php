@@ -55,6 +55,10 @@ if ($currentTime > $pastTime) {
     
     //update session
     //formats object into xml string
+    
+    //have 1 session that stores array of feedid and response
+    
+    
     $_SESSION["$FeedID"] = $response;
     
 } else {
