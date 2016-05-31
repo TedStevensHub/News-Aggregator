@@ -4,6 +4,7 @@
 include 'credentials.php';
 
 session_start();
+//global session that everyone is accessing?
 
 $Feed = $_GET['feed'];
 $FeedID = $_GET['feedid'];
@@ -26,13 +27,13 @@ $date = date_create("$lastUpdated");
 date_add($date, date_interval_create_from_date_string('10 minutes'));
 $pastTime = date_format($date, 'Y-m-d H:i:s');
 
-echo "Last updated time: $pastTime <br />";
+echo "Next available update: $pastTime <br />";
 
 
 //current time
 $currentTime = date("Y-m-d H:i:s");
     
-echo "Current time: $currentTime";
+echo "Current time: $currentTime <br />";
 
 //compare current time to time when rss feed can be refreshed
 if ($currentTime > $pastTime) {
@@ -42,8 +43,10 @@ if ($currentTime > $pastTime) {
     
     $request = "https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=".$Feed."&output=rss";
     $response = file_get_contents($request);
+    //make xml object
     $xml = simplexml_load_string($response);
-    print '<h1>' . $xml->channel->title . '</h1>';
+    
+    echo '<h1>' . $xml->channel->title . '</h1>';
     foreach($xml->channel->item as $story)
     {
         echo '<a href="' . $story->link . '">' . $story->title . '</a><br />'; 
@@ -51,18 +54,21 @@ if ($currentTime > $pastTime) {
     }
     
     //update session
-    $_SESSION[$FeedID] = $xml;
+    //formats object into xml string
+    $_SESSION["$FeedID"] = $response;
     
 } else {
     //display old cached feed
-
-    $xml = $_SESSION[$FeedID];
-    print '<h1>' . $xml->channel->title . '</h1>';
+    $string = $_SESSION["$FeedID"];
+    $xml = simplexml_load_string($string);
+    
+    echo '<h1>' . $xml->channel->title . '</h1>';
     foreach($xml->channel->item as $story)
     {
         echo '<a href="' . $story->link . '">' . $story->title . '</a><br />'; 
         echo '<p>' . $story->description . '</p><br /><br />';
     }
+
     
 }
 
