@@ -2,10 +2,7 @@
 namespace NewsAggregator\addFeed;
 
 // add-feed.php
-define('DB_NAME','seattlecentral_db');
-define('DB_USER','sammch1');
-define('DB_PASSWORD','PotatoPie69');
-define('DB_HOST','sandbox.sammchaney.com'); 
+include('incl/credentials.php');
 
 if(isset($_POST['feedUrl']) and isset($_POST['feedName']) and isset($_POST['feedCat']))
 {
@@ -27,7 +24,8 @@ if(isset($_POST['feedUrl']) and isset($_POST['feedName']) and isset($_POST['feed
     }
     else
     {
-        $sqlAddCat = 'INSERT INTO sp16_newsCategory (Category) VALUES (\''.$feedCat.'\');';
+        $sqlAddCat = 'INSERT INTO sp16_newsCategory (Category) VALUES '
+                . '(\''.$feedCat.'\');';
         mysqli_free_result($result);
         mysqli_query($link, $sqlAddCat);
         $result = mysqli_query($link,$sql);
@@ -38,7 +36,8 @@ if(isset($_POST['feedUrl']) and isset($_POST['feedName']) and isset($_POST['feed
     mysqli_free_result($result);
     
     // Add feed to feed table
-    $sql = 'INSERT INTO sp16_newsFeed(FeedName,CategoryID,FullUrl) VALUES (\''.$feedName.'\','.$catID.',\''.$feedUrl.'\');';
+    $sql = 'INSERT INTO sp16_newsFeed(FeedName,CategoryID,FullUrl) VALUES (\''
+            .$feedName.'\','.$catID.',\''.$feedUrl.'\');';
     
     if(mysqli_query($link,$sql))
     {

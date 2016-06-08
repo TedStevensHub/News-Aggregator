@@ -4,43 +4,50 @@ sp16_news.sql
 
 SET foreign_key_checks = 0; #turn off constraints temporarily
 
-#since constraints cause problems, drop tables first, working backward
-DROP TABLE IF EXISTS sp16_newsFeed;
-DROP TABLE IF EXISTS sp16_newsCategory;
-  
-#all tables must be of type InnoDB to do transactions, foreign key constraints
-CREATE TABLE sp16_newsFeed(
-FeedID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-FeedName TEXT DEFAULT '',
-CategoryID INT UNSIGNED DEFAULT 0,
-Feed TEXT DEFAULT '',
-PRIMARY KEY (FeedID),
-FOREIGN KEY (CategoryID) REFERENCES sp16_newsCategory(CategoryID) ON DELETE CASCADE
-)ENGINE=INNODB; 
+-- Adminer 4.1.0 MySQL dump
 
-INSERT INTO sp16_newsFeed VALUES (NULL,'Mount Everest',1,'Mount+Everest');
-INSERT INTO sp16_newsFeed VALUES (NULL,'Bangladesh',1,'Bangladesh');
-INSERT INTO sp16_newsFeed VALUES (NULL,'Taliban',1,'Taliban');
-INSERT INTO sp16_newsFeed VALUES (NULL,'Nasa',2,'NASA'); 
-INSERT INTO sp16_newsFeed VALUES (NULL,'Maui',2,'Maui'); 
-INSERT INTO sp16_newsFeed VALUES (NULL,'2020 Summer Olympics',2,'2020+Summer+Olympics'); 
-INSERT INTO sp16_newsFeed VALUES (NULL,'Boston Red Sox',3,'Boston+Red+Sox'); 
-INSERT INTO sp16_newsFeed VALUES (NULL,'French Open',3,'French+Open'); 
-INSERT INTO sp16_newsFeed VALUES (NULL,'Cleveland Cavaliers',3,'Cleveland+Cavaliers'); 
+SET NAMES utf8;
+SET time_zone = '+00:00';
+SET foreign_key_checks = 0;
+SET sql_mode = 'NO_AUTO_VALUE_ON_ZERO';
 
+DROP TABLE IF EXISTS `sp16_newsCategory`;
+CREATE TABLE `sp16_newsCategory` (
+  `CategoryID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `Category` varchar(100) DEFAULT '',
+  PRIMARY KEY (`CategoryID`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-#--URL's to make dynamic--#
-#https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=Olympic+Games&output=rss
+INSERT INTO `sp16_newsCategory` (`CategoryID`, `Category`) VALUES
+(1,	'World'),
+(2,	'Science'),
+(3,	'Sports'),
+(4,	'Music'),
+(5,	'Americas');
 
+DROP TABLE IF EXISTS `sp16_newsFeed`;
+CREATE TABLE `sp16_newsFeed` (
+  `FeedID` int(10) unsigned NOT NULL AUTO_INCREMENT,
+  `FeedName` text,
+  `CategoryID` int(10) unsigned DEFAULT '0',
+  `Feed` text,
+  `FullUrl` varchar(2083) DEFAULT NULL,
+  PRIMARY KEY (`FeedID`),
+  KEY `CategoryID` (`CategoryID`),
+  CONSTRAINT `sp16_newsFeed_ibfk_1` FOREIGN KEY (`CategoryID`) REFERENCES `sp16_newsCategory` (`CategoryID`) ON DELETE CASCADE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
-CREATE TABLE sp16_newsCategory(
-CategoryID INT UNSIGNED NOT NULL AUTO_INCREMENT,
-Category VARCHAR(100) DEFAULT '',
-PRIMARY KEY (CategoryID)    
-)ENGINE=INNODB;
-
-INSERT INTO sp16_newsCategory VALUES (NULL,'World');
-INSERT INTO sp16_newsCategory VALUES (NULL,'Science');
-INSERT INTO sp16_newsCategory VALUES (NULL,'Sports');
+INSERT INTO `sp16_newsFeed` (`FeedID`, `FeedName`, `CategoryID`, `Feed`, `FullUrl`) VALUES
+(1,	'Mount Everest',	1,	'Mount+Everest',	'https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=\"Mount+Everest\"&output=rss'),
+(2,	'Bangladesh',	1,	'Bangladesh',	'https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=\"Bangladesh\"&output=rss'),
+(3,	'Taliban',	1,	'Taliban',	'https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=\"Taliban\"&output=rss'),
+(4,	'Nasa',	2,	'NASA',	'https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=\"NASA\"&output=rss'),
+(5,	'Maui',	2,	'Maui',	'https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=\"Maui\"&output=rss'),
+(6,	'2020 Summer Olympics',	2,	'2020+Summer+Olympics',	'https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=\"2020+Summer+Olympics\"&output=rss'),
+(7,	'Boston Red Sox',	3,	'Boston+Red+Sox',	'https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=\"Boston+Red+Sox\"&output=rss'),
+(8,	'French Open',	3,	'French+Open',	'https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=\"French+Open\"&output=rss'),
+(9,	'Cleveland Cavaliers',	3,	'Cleveland+Cavaliers',	'https://news.google.com/news?cf=all&hl=en&pz=1&ned=us&q=\"Cleveland+Cavaliers\"&output=rss'),
+(10,	'NYT Americas News',	5,	NULL,	'http://rss.nytimes.com/services/xml/rss/nyt/Americas.xml'),
+(15,	'NYT International Sports',	3,	NULL,	'http://rss.nytimes.com/services/xml/rss/nyt/InternationalSports.xml');
 
 SET foreign_key_checks = 1; #turn foreign key check back on
