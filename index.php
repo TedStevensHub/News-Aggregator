@@ -15,7 +15,6 @@ if(array_key_exists("Categories",$_SESSION))
 {
     // This is where HTML generation begins.
 echo '<h3 align="center">News Aggregator</h3>';
-echo '<p><a href="add-feed.php" value="Add a feed">Add a feed.</a></p>';
 
 // Loop through each category element in SESSION and render category links
 echo '<ul>';
@@ -34,6 +33,7 @@ echo '<ul>';
         }
 }
 echo '</ul>';
+echo '<p><a href="add-feed.php" value="Add a feed"><strong>Add a feed.</a></p><strong>';
 }
 else
 {

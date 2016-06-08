@@ -41,7 +41,8 @@ if(isset($_POST['feedUrl']) and isset($_POST['feedName']) and isset($_POST['feed
     
     if(mysqli_query($link,$sql))
     {
-        echo 'Successfully added!';
+        echo 'Successfully added!<br/>';
+        echo '<a href="index.php" value="Home">Return Home</a>';
     }
     else
     {
